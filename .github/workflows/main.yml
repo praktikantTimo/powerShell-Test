@@ -15,7 +15,7 @@ jobs:
       - name: run PSScriptAnalyzer
         shell: pwsh
         run: |
-          $results = Get-ChildItem -Path . -Recurse -Include *.psd1 *.psm1 *.psd1 |
+          $results = Get-ChildItem -Path . -Recurse -Include *.psd1, *.psm1, *.psd1 |
             Invoke-ScriptAnalyzer
 
           $results | Format-Table
