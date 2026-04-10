@@ -1,0 +1,27 @@
+name: powershellPipeline
+
+on: push
+
+jobs:
+  ScriptAnalyzer:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v4
+      - name: install PSSCriptAnalyzer
+        shell: pwsh
+        run: Install-Module PSScriptAnalyzer -Force -Scope CurrentUser
+      - name: run PSScriptAnalyzer
+        shell: pwsh
+        run: |
+          $results = Get-ChildItem -Path . -Recurse -Include *.psd1 *.psm1 *.psd1 |
+            Invoke-ScriptAnalyzer
+
+          $results | Format-Table
+
+          if ($results) {
+            throw "PSScriptanalyzer found issues"
+          }
+      
+  
